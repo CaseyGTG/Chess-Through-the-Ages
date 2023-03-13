@@ -6,6 +6,8 @@ namespace Assets.Code.BoardData
 {
     public class ChessBoard : MonoBehaviour
     {
-        IList<ChessTile> chessTiles { get; set; }
+        private IList<ChessTileComponent> chessTiles { get; set; }
+
+        public ChessTileComponent GetChessTileWithLocation { get; set; }
     }
 }
