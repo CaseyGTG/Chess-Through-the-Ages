@@ -78,7 +78,7 @@ namespace Assets.Code.ChessData
         {
             ChessTileComponent[] allTiles = this.GetComponentsInChildren<ChessTileComponent>();
             Debug.Log(allTiles.Count());
-            IList<ChessTileComponent> tile = from resultTile in allTiles where resultTile.tileLocation.Equals(location) select resultTile;
+            IList<ChessTileComponent> tile = allTiles.Where(resulTile => resulTile.tileLocation == location).ToList();
 
             if(tile.Count() == 0)
             {
