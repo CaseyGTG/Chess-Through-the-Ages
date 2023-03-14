@@ -1,4 +1,4 @@
-﻿using Assets.Code.BoardData.Enums;
+﻿using Assets.Code.ChessData.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Code.BoardData
+namespace Assets.Code.ChessData
 {
     [Serializable]
     public class TileLocation

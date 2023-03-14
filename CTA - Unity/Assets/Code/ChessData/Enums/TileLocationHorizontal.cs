@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Code.BoardData.Enums
+namespace Assets.Code.ChessData.Enums
 {
     public enum TileLocationHorizontal
     {
