@@ -39,7 +39,6 @@ namespace Assets.Code.ChessData
             {
                 ChessBoardComponent chessBoard = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
                 chessBoard.CurrentlySelectedChessPiece.StartMovingTo(this.tileLocation);
-                chessBoard.CurrentlySelectedChessPiece = null;
             }
             Debug.Log(tileLocation.ToString());
         }

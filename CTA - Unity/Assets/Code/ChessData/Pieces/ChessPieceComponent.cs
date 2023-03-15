@@ -56,6 +56,7 @@ namespace Assets.Code.ChessData.Pieces
                 if (this.transform.position == PointToMoveTo)
                 {
                     PointToMoveTo = null;
+
                     CurrentlyMoving = false;
                 }
             }
@@ -67,6 +68,7 @@ namespace Assets.Code.ChessData.Pieces
             ChessTileComponent tileToMoveTo = chessBoardComponent.GetTileWithLocation(location);
             PointToMoveTo = new Vector2(tileToMoveTo.gameObject.transform.position.x, tileToMoveTo.gameObject.transform.parent.position.y);
             Debug.Log($"Moving {this} to {location} on {PointToMoveTo}");
+            chessBoardComponent.CurrentlySelectedChessPiece = null;
         }
 
         public override void Interact()
@@ -81,15 +83,7 @@ namespace Assets.Code.ChessData.Pieces
         private void SelectOrDeselectPiece()
         {
             ChessBoardComponent chessBoardComponent = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
-
-            if (chessBoardComponent.CurrentlySelectedChessPiece != this)
-            {
-                chessBoardComponent.CurrentlySelectedChessPiece = this;
-            }
-            else
-            {
-                chessBoardComponent.CurrentlySelectedChessPiece = null;
-            }
+            chessBoardComponent.CurrentlySelectedChessPiece = this;
         }
     }
 }

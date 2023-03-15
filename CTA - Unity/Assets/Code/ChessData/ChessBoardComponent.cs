@@ -11,9 +11,8 @@ namespace Assets.Code.ChessData
     public class ChessBoardComponent : MonoBehaviour
     {
         [SerializeField]
-        public ChessPieceComponent currentlySelectedChessPiece;
+        internal ChessPieceComponent currentlySelectedChessPiece;
 
-        
         public ChessPieceComponent CurrentlySelectedChessPiece
         {
             get
@@ -22,6 +21,8 @@ namespace Assets.Code.ChessData
             }
             set
             {
+                currentlySelectedChessPiece = value;
+
                 DeselectAllTiles();
 
                 if (value != null)
@@ -30,7 +31,6 @@ namespace Assets.Code.ChessData
                     ShowCurrentlyMoveableTiles(value);
                 }
 
-                currentlySelectedChessPiece = value;
             }
         }
 
