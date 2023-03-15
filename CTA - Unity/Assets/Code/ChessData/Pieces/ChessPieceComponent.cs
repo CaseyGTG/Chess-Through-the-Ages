@@ -1,11 +1,6 @@
 ﻿using Assets.Code.ChessData.Enums;
-using Assets.Code.ChessData.Pieces.MovementData;
 using Assets.Code.Interactions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Code.ChessData.Pieces
@@ -18,12 +13,20 @@ namespace Assets.Code.ChessData.Pieces
         [SerializeField]
         public ChessColor Color;
 
-        public TileLocation CurrentTileLocation { get
+        public bool CurrentlyMoving = false;
+
+        public Vector2? PointToMoveTo;
+
+        public float moveSpeed = 1;
+
+        public TileLocation CurrentTileLocation
+        {
+            get
             {
                 RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.up, 0f, LayerMask.GetMask("ChessBoard"));
                 if (hit.collider != null)
                 {
-                    ChessTileComponent currentTile = hit.transform.GetComponentInChildren<ChessTileComponent>() ?? 
+                    ChessTileComponent currentTile = hit.transform.GetComponentInChildren<ChessTileComponent>() ??
                         throw new Exception($"Hit something with no ChessTileComponent with name {hit.transform.name}");
                     return currentTile.tileLocation;
                 }
@@ -31,7 +34,7 @@ namespace Assets.Code.ChessData.Pieces
                 {
                     throw new Exception("Could not find any tile underneath chess piece.");
                 }
-            } 
+            }
         }
 
         public override string ToString()
@@ -39,13 +42,47 @@ namespace Assets.Code.ChessData.Pieces
             return $"{Color} {PieceType}";
         }
 
+        private void Update()
+        {
+            MoveToDestination();
+        }
+
+        private void MoveToDestination()
+        {
+            if (PointToMoveTo != null)
+            {
+                CurrentlyMoving = true;
+                this.transform.position = Vector2.MoveTowards(this.transform.position, (Vector2)PointToMoveTo, moveSpeed * Time.deltaTime);
+                if (this.transform.position == PointToMoveTo)
+                {
+                    PointToMoveTo = null;
+                    CurrentlyMoving = false;
+                }
+            }
+        }
+
+        public void StartMovingTo(TileLocation location)
+        {
+            ChessBoardComponent chessBoardComponent = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
+            ChessTileComponent tileToMoveTo = chessBoardComponent.GetTileWithLocation(location);
+            PointToMoveTo = new Vector2(tileToMoveTo.gameObject.transform.position.x, tileToMoveTo.gameObject.transform.parent.position.y);
+            Debug.Log($"Moving {this} to {location} on {PointToMoveTo}");
+        }
+
         public override void Interact()
         {
-            Debug.Log(this.ToString());
+            if (!CurrentlyMoving)
+            {
+                Debug.Log(this.ToString());
+                SelectOrDeselectPiece();
+            }
+        }
 
+        private void SelectOrDeselectPiece()
+        {
             ChessBoardComponent chessBoardComponent = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
 
-            if(chessBoardComponent.CurrentlySelectedChessPiece != this)
+            if (chessBoardComponent.CurrentlySelectedChessPiece != this)
             {
                 chessBoardComponent.CurrentlySelectedChessPiece = this;
             }

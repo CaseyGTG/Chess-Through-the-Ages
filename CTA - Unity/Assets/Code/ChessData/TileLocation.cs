@@ -1,9 +1,5 @@
 ﻿using Assets.Code.ChessData.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Code.ChessData
@@ -15,6 +11,16 @@ namespace Assets.Code.ChessData
         {
             return $"{HorizontalLocation.ToString()}, {VerticalLocation.ToString()}";
         }
+
+        public override bool Equals(object toCompare)
+        {
+            if (toCompare is TileLocation location)
+            {
+                return location.HorizontalLocation == HorizontalLocation && location.VerticalLocation == VerticalLocation;
+            }
+            return base.Equals(toCompare);
+        }
+
         [SerializeField]
         public TileLocationHorizontal HorizontalLocation;
 

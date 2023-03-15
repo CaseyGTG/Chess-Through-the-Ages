@@ -27,6 +27,7 @@ namespace Assets.Code.ChessData
                 else
                 {
                     selectionParticles.Stop();
+                    selectionParticles.Clear();
                 }
                 selectable = value;
             }
@@ -34,12 +35,19 @@ namespace Assets.Code.ChessData
 
         public override void Interact()
         {
+            if (selectable)
+            {
+                ChessBoardComponent chessBoard = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
+                chessBoard.CurrentlySelectedChessPiece.StartMovingTo(this.tileLocation);
+                chessBoard.CurrentlySelectedChessPiece = null;
+            }
             Debug.Log(tileLocation.ToString());
         }
 
         private void Awake()
         {
             selectionParticles = GetComponentInChildren<ParticleSystem>() ?? throw new MissingComponentException();
+            selectionParticles.Stop();
             Selectable = false;
         }
     }

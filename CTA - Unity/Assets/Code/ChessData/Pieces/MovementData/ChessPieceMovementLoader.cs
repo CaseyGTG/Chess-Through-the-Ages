@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
+using UnityEngine;
 namespace Assets.Code.ChessData.Pieces.MovementData
 {
     public static class ChessPieceMovementLoader
@@ -33,6 +32,7 @@ namespace Assets.Code.ChessData.Pieces.MovementData
                 default:
                     throw new Exception("Undefined chess piece");
             }
+
         }
 
         private static List<ChessPieceMovementDefinition> loadKingMovement()
@@ -97,7 +97,6 @@ namespace Assets.Code.ChessData.Pieces.MovementData
             List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
 
             result.Add(new(ChessMovementType.Diagonal));
-
             return result;
         }
 
