@@ -33,9 +33,12 @@ namespace Assets.Code.ChessData
             }
         }
 
+        [SerializeField]
+        public bool Occupied = false;
+
         public override void Interact()
         {
-            if (selectable)
+            if (selectable && !Occupied)
             {
                 ChessBoardComponent chessBoard = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
                 chessBoard.CurrentlySelectedChessPiece.StartMovingTo(this.tileLocation);

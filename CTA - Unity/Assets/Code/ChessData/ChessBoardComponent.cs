@@ -21,14 +21,16 @@ namespace Assets.Code.ChessData
             }
             set
             {
-                currentlySelectedChessPiece = value;
-
                 DeselectAllTiles();
 
-                if (value != null)
+                if (currentlySelectedChessPiece != value)
                 {
-                    Debug.Log($"Current value {currentlySelectedChessPiece}, new value {value}");
-                    ShowCurrentlyMoveableTiles(value);
+                    currentlySelectedChessPiece = value;
+                    ShowCurrentlyMoveableTiles(currentlySelectedChessPiece);
+                }
+                else
+                {
+                    currentlySelectedChessPiece = null;
                 }
             }
         }
@@ -58,27 +60,66 @@ namespace Assets.Code.ChessData
                 switch (movementDefinition.MovementType)
                 {
                     case ChessMovementType.Diagonal:
-                        HighlightDiagonalTilesFrom(chessPiece);
+                        HighlightTilesFromList(GetAllDiagonalTilesFromPiece(chessPiece));
                         break;
 
                     case ChessMovementType.Horizontal:
-                        HighlightHorizontalTilesFrom(chessPiece);
+                        HighlightTilesFromList(GetAllHorizontalTiles(chessPiece));
                         break;
 
                     case ChessMovementType.Vertical:
-
+                        HighlightTilesFromList(GetAllVerticalTiles(chessPiece));
                         break;
 
                     case ChessMovementType.UserDefined:
-                        HighlightUserDefinedTiles(chessPiece, movementDefinition);
+                        HighlightTilesFromList(GetAllUserDefinedTiles(chessPiece, movementDefinition));
                         break;
                 }
             }
         }
 
-        private void HighlightHorizontalTilesFrom(ChessPieceComponent chessPiece)
+        private List<ChessTileComponent> GetAllVerticalTiles(ChessPieceComponent chessPiece)
         {
-            List<ChessTileComponent> chessTilesToHighlight = new List<ChessTileComponent>();
+            List<ChessTileComponent> result = new List<ChessTileComponent>();
+
+            TileLocation currentLocation = chessPiece.CurrentTileLocation;
+
+            int upIterator = 1;
+            while (true)
+            {
+                TileLocation newTileLocation = new TileLocation();
+                newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation;
+                newTileLocation.VerticalLocation = currentLocation.VerticalLocation + upIterator;
+                ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
+                {
+                    break;
+                }
+                result.Add(tileComponentToAdd);
+                upIterator++;
+            }
+
+            int downIterator = 1;
+            while (true)
+            {
+                TileLocation newTileLocation = new TileLocation();
+                newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation;
+                newTileLocation.VerticalLocation = currentLocation.VerticalLocation - downIterator;
+                ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
+                {
+                    break;
+                }
+                result.Add(tileComponentToAdd);
+                downIterator++;
+            }
+
+            return result;
+        }
+
+        private List<ChessTileComponent> GetAllHorizontalTiles(ChessPieceComponent chessPiece)
+        {
+            List<ChessTileComponent> result = new List<ChessTileComponent>();
 
             TileLocation currentLocation = chessPiece.CurrentTileLocation;
 
@@ -89,11 +130,11 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation - leftIterator;
                 newTileLocation.VerticalLocation = currentLocation.VerticalLocation;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 leftIterator++;
             }
 
@@ -104,13 +145,15 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation + rightIterator;
                 newTileLocation.VerticalLocation = currentLocation.VerticalLocation;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 rightIterator++;
             }
+
+            return result;
         }
 
         public ChessTileComponent GetTileWithLocation(TileLocation location)
@@ -125,9 +168,9 @@ namespace Assets.Code.ChessData
             return tile;
         }
 
-        private void HighlightUserDefinedTiles(ChessPieceComponent chessPiece, ChessPieceMovementDefinition movementDefinition)
+        private List<ChessTileComponent> GetAllUserDefinedTiles(ChessPieceComponent chessPiece, ChessPieceMovementDefinition movementDefinition)
         {
-            List<ChessTileComponent> chessTilesToHighlight = new List<ChessTileComponent>();
+            List<ChessTileComponent> result = new List<ChessTileComponent>();
 
             TileLocation originLocation = chessPiece.CurrentTileLocation;
 
@@ -137,13 +180,14 @@ namespace Assets.Code.ChessData
                 tileLocationToAdd.HorizontalLocation = originLocation.HorizontalLocation + userDefinedMovement.Horizontally;
                 tileLocationToAdd.VerticalLocation = originLocation.VerticalLocation + userDefinedMovement.Vertically;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(tileLocationToAdd);
-                if (tileComponentToAdd != null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
-                    chessTilesToHighlight.Add(tileComponentToAdd);
+                    continue;
                 }
+                result.Add(tileComponentToAdd);
             }
 
-            HighlightTilesFromList(chessTilesToHighlight);
+            return result;
         }
 
         private void HighlightTilesFromList(List<ChessTileComponent> tilesToHighlight)
@@ -154,17 +198,9 @@ namespace Assets.Code.ChessData
             }
         }
 
-        private void HighlightDiagonalTilesFrom(ChessPieceComponent chessPiece)
+        private List<ChessTileComponent> GetAllDiagonalTilesFromPiece(ChessPieceComponent chessPiece)
         {
-            List<ChessTileComponent> chessTilesToHighlight = new List<ChessTileComponent>();
-
-            GetAllDiagonalTilesFromPiece(chessPiece, chessTilesToHighlight);
-
-            HighlightTilesFromList(chessTilesToHighlight);
-        }
-
-        private void GetAllDiagonalTilesFromPiece(ChessPieceComponent chessPiece, List<ChessTileComponent> chessTilesToHighlight)
-        {
+            List<ChessTileComponent> result = new List<ChessTileComponent>();
             TileLocation currentLocation = chessPiece.CurrentTileLocation;
 
             int upRightIterator = 1;
@@ -174,11 +210,11 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation + upRightIterator;
                 newTileLocation.VerticalLocation += (int)currentLocation.VerticalLocation + upRightIterator;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 upRightIterator++;
             }
 
@@ -189,11 +225,11 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation - downLeftIterator;
                 newTileLocation.VerticalLocation += (int)currentLocation.VerticalLocation - downLeftIterator;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 downLeftIterator++;
             }
 
@@ -204,11 +240,11 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation - upLeftIterator;
                 newTileLocation.VerticalLocation += (int)currentLocation.VerticalLocation + upLeftIterator;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 upLeftIterator++;
             }
 
@@ -220,13 +256,15 @@ namespace Assets.Code.ChessData
                 newTileLocation.HorizontalLocation += (int)currentLocation.HorizontalLocation + downRightIterator;
                 newTileLocation.VerticalLocation += (int)currentLocation.VerticalLocation - downRightIterator;
                 ChessTileComponent tileComponentToAdd = GetTileWithLocation(newTileLocation);
-                if (tileComponentToAdd == null)
+                if (tileComponentToAdd == null || tileComponentToAdd.Occupied)
                 {
                     break;
                 }
-                chessTilesToHighlight.Add(tileComponentToAdd);
+                result.Add(tileComponentToAdd);
                 downRightIterator++;
             }
+
+            return result;
         }
     }
 }

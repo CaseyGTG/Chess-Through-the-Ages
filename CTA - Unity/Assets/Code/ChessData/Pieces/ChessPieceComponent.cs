@@ -37,6 +37,12 @@ namespace Assets.Code.ChessData.Pieces
             }
         }
 
+        private void Awake()
+        {
+            ChessBoardComponent chessBoardComponent = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
+            chessBoardComponent.GetTileWithLocation(CurrentTileLocation).Occupied = true;
+        }
+
         public override string ToString()
         {
             return $"{Color} {PieceType}";
@@ -65,9 +71,12 @@ namespace Assets.Code.ChessData.Pieces
         public void StartMovingTo(TileLocation location)
         {
             ChessBoardComponent chessBoardComponent = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
+            ChessTileComponent currentTile = chessBoardComponent.GetTileWithLocation(CurrentTileLocation);
+            currentTile.Occupied = false;
             ChessTileComponent tileToMoveTo = chessBoardComponent.GetTileWithLocation(location);
             PointToMoveTo = new Vector2(tileToMoveTo.gameObject.transform.position.x, tileToMoveTo.gameObject.transform.parent.position.y);
             Debug.Log($"Moving {this} to {location} on {PointToMoveTo}");
+            tileToMoveTo.Occupied = true;
             chessBoardComponent.CurrentlySelectedChessPiece = null;
         }
 
