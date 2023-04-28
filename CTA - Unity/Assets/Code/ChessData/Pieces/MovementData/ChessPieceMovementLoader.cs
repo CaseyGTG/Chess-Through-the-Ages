@@ -39,18 +39,20 @@ namespace Assets.Code.ChessData.Pieces.MovementData
         {
             List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
 
-            List<UserDefinedMovement> kingMovement = new List<UserDefinedMovement>();
-            kingMovement.Add(new(0, 1));
-            kingMovement.Add(new(0, -1));
+            List<UserDefinedMovement> kingMovement = new List<UserDefinedMovement>
+            {
+                new(0, 1),
+                new(0, -1),
 
-            kingMovement.Add(new(1, 0));
-            kingMovement.Add(new(-1, 0));
+                new(1, 0),
+                new(-1, 0),
 
-            kingMovement.Add(new(-1, -1));
-            kingMovement.Add(new(1, -1));
+                new(-1, -1),
+                new(1, -1),
 
-            kingMovement.Add(new(-1, 1));
-            kingMovement.Add(new(1, 1));
+                new(-1, 1),
+                new(1, 1)
+            };
 
             ChessPieceMovementDefinition kingMovementDefinition = new ChessPieceMovementDefinition(ChessMovementType.UserDefined, kingMovement);
             result.Add(kingMovementDefinition);
@@ -60,21 +62,23 @@ namespace Assets.Code.ChessData.Pieces.MovementData
 
         private static List<ChessPieceMovementDefinition> loadQueenMovement()
         {
-            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
-
-            result.Add(new(ChessMovementType.Horizontal));
-            result.Add(new(ChessMovementType.Vertical));
-            result.Add(new(ChessMovementType.Diagonal));
+            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>
+            {
+                new(ChessMovementType.Horizontal),
+                new(ChessMovementType.Vertical),
+                new(ChessMovementType.Diagonal)
+            };
 
             return result;
         }
 
         private static List<ChessPieceMovementDefinition> loadRookMovement()
         {
-            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
-
-            result.Add(new(ChessMovementType.Horizontal));
-            result.Add(new(ChessMovementType.Vertical));
+            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>
+            {
+                new(ChessMovementType.Horizontal),
+                new(ChessMovementType.Vertical)
+            };
 
             return result;
         }
@@ -83,9 +87,12 @@ namespace Assets.Code.ChessData.Pieces.MovementData
         {
             List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
 
-            List<UserDefinedMovement> knightMovement = new List<UserDefinedMovement>();
-            knightMovement.Add(new(2, 1));
-            knightMovement.Add(new(2, -1));
+            List<UserDefinedMovement> knightMovement = new List<UserDefinedMovement>
+            {
+                new(2, 1),
+                new(2, -1)
+            };
+
             ChessPieceMovementDefinition knightMovementDefinition = new ChessPieceMovementDefinition(ChessMovementType.UserDefined, knightMovement);
             result.Add(knightMovementDefinition);
 
@@ -94,9 +101,10 @@ namespace Assets.Code.ChessData.Pieces.MovementData
 
         private static List<ChessPieceMovementDefinition> loadBishopMovement()
         {
-            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
-
-            result.Add(new(ChessMovementType.Diagonal));
+            List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>
+            {
+                new(ChessMovementType.Diagonal)
+            };
             return result;
         }
 
@@ -104,8 +112,10 @@ namespace Assets.Code.ChessData.Pieces.MovementData
         {
             List<ChessPieceMovementDefinition> result = new List<ChessPieceMovementDefinition>();
 
-            List<UserDefinedMovement> forwardMovement = new List<UserDefinedMovement>();
-            forwardMovement.Add(new(1, 0));
+            List<UserDefinedMovement> forwardMovement = new List<UserDefinedMovement>
+            {
+                new(1, 0)
+            };
             ChessPieceMovementDefinition pawnMovementDefinition = new ChessPieceMovementDefinition(ChessMovementType.UserDefined, forwardMovement);
             result.Add(pawnMovementDefinition);
 

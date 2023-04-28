@@ -40,8 +40,7 @@ namespace Assets.Code.ChessData
         {
             if (selectable && !Occupied)
             {
-                ChessBoardComponent chessBoard = FindObjectOfType<ChessBoardComponent>() ?? throw new MissingComponentException();
-                chessBoard.CurrentlySelectedChessPiece.StartMovingTo(this.tileLocation);
+                ChessBoardComponent.CurrentlySelectedChessPiece.StartMovingTo(this.tileLocation);
             }
             Debug.Log(tileLocation.ToString());
         }

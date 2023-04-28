@@ -1,6 +1,7 @@
 using Assets.Code.ChessData.Enums;
 using Assets.Code.ChessData.Pieces;
 using Assets.Code.ChessData.Pieces.MovementData;
+using Assets.Code.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,17 @@ namespace Assets.Code.ChessData
 {
     public class ChessBoardComponent : MonoBehaviour
     {
-        [SerializeField]
-        internal ChessPieceComponent currentlySelectedChessPiece;
+        private static ChessBoardComponent singleInstance;
 
-        public ChessPieceComponent CurrentlySelectedChessPiece
+        private void Awake()
+        {
+            singleInstance = this;
+        }
+
+        [SerializeField]
+        internal static ChessPieceComponent currentlySelectedChessPiece;
+
+        public static ChessPieceComponent CurrentlySelectedChessPiece
         {
             get
             {
@@ -32,28 +40,33 @@ namespace Assets.Code.ChessData
                 {
                     currentlySelectedChessPiece = null;
                 }
+
+                UpgradeRowControllerComponent.ShowUpgradesOfChessPiece(currentlySelectedChessPiece);
             }
         }
 
-        private List<ChessPieceMovementDefinition> piecesMovementOptions = new();
+        private static List<ChessPieceMovementDefinition> piecesMovementOptions = new();
 
-        private void DeselectAllTiles()
+        private static void DeselectAllTiles()
         {
             piecesMovementOptions.Clear();
-            IList<ChessTileComponent> tiles = this.GetComponentsInChildren<ChessTileComponent>();
+            IList<ChessTileComponent> tiles = singleInstance.GetComponentsInChildren<ChessTileComponent>();
             foreach (ChessTileComponent tile in tiles)
             {
                 tile.Selectable = false;
             }
         }
 
-        public void ShowCurrentlyMoveableTiles(ChessPieceComponent chessPiece)
+        public static void ShowCurrentlyMoveableTiles(ChessPieceComponent chessPiece)
         {
-            piecesMovementOptions = ChessPieceMovementLoader.GetMovementOptionsByPieceType(chessPiece.PieceType);
-            ShowSelectableTiles(chessPiece);
+            if (chessPiece != null)
+            {
+                piecesMovementOptions = ChessPieceMovementLoader.GetMovementOptionsByPieceType(chessPiece.PieceType);
+                ShowSelectableTiles(chessPiece);
+            }
         }
 
-        private void ShowSelectableTiles(ChessPieceComponent chessPiece)
+        private static void ShowSelectableTiles(ChessPieceComponent chessPiece)
         {
             foreach (ChessPieceMovementDefinition movementDefinition in piecesMovementOptions)
             {
@@ -78,7 +91,7 @@ namespace Assets.Code.ChessData
             }
         }
 
-        private List<ChessTileComponent> GetAllVerticalTiles(ChessPieceComponent chessPiece)
+        private static List<ChessTileComponent> GetAllVerticalTiles(ChessPieceComponent chessPiece)
         {
             List<ChessTileComponent> result = new List<ChessTileComponent>();
 
@@ -117,7 +130,7 @@ namespace Assets.Code.ChessData
             return result;
         }
 
-        private List<ChessTileComponent> GetAllHorizontalTiles(ChessPieceComponent chessPiece)
+        private static List<ChessTileComponent> GetAllHorizontalTiles(ChessPieceComponent chessPiece)
         {
             List<ChessTileComponent> result = new List<ChessTileComponent>();
 
@@ -156,9 +169,14 @@ namespace Assets.Code.ChessData
             return result;
         }
 
-        public ChessTileComponent GetTileWithLocation(TileLocation location)
+        public static ChessTileComponent GetTileWithLocation(TileLocation location)
         {
-            ChessTileComponent[] allTiles = this.GetComponentsInChildren<ChessTileComponent>();
+            if (singleInstance == null)
+            {
+                throw new Exception("Trying to acces not set chessBoard.");
+            }
+
+            ChessTileComponent[] allTiles = singleInstance.GetComponentsInChildren<ChessTileComponent>();
             ChessTileComponent tile = allTiles.Where(resultTile => resultTile.tileLocation.Equals(location)).FirstOrDefault();
             if (tile == null)
             {
@@ -168,7 +186,7 @@ namespace Assets.Code.ChessData
             return tile;
         }
 
-        private List<ChessTileComponent> GetAllUserDefinedTiles(ChessPieceComponent chessPiece, ChessPieceMovementDefinition movementDefinition)
+        private static List<ChessTileComponent> GetAllUserDefinedTiles(ChessPieceComponent chessPiece, ChessPieceMovementDefinition movementDefinition)
         {
             List<ChessTileComponent> result = new List<ChessTileComponent>();
 
@@ -190,7 +208,7 @@ namespace Assets.Code.ChessData
             return result;
         }
 
-        private void HighlightTilesFromList(List<ChessTileComponent> tilesToHighlight)
+        private static void HighlightTilesFromList(List<ChessTileComponent> tilesToHighlight)
         {
             foreach (ChessTileComponent chessTile in tilesToHighlight)
             {
@@ -198,7 +216,7 @@ namespace Assets.Code.ChessData
             }
         }
 
-        private List<ChessTileComponent> GetAllDiagonalTilesFromPiece(ChessPieceComponent chessPiece)
+        private static List<ChessTileComponent> GetAllDiagonalTilesFromPiece(ChessPieceComponent chessPiece)
         {
             List<ChessTileComponent> result = new List<ChessTileComponent>();
             TileLocation currentLocation = chessPiece.CurrentTileLocation;
@@ -247,7 +265,6 @@ namespace Assets.Code.ChessData
                 result.Add(tileComponentToAdd);
                 upLeftIterator++;
             }
-
 
             int downRightIterator = 1;
             while (true)
