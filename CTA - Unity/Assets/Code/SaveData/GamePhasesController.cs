@@ -1,23 +1,21 @@
 ﻿using Assets.Code.SaveData.Enums;
-using System;
+using Assets.Code.SaveData.PhaseLevelData.MainGame;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Code.SaveData
 {
-    internal static class GamePhasesController
+    public static class GamePhasesController
     {
-        internal static Type GetCorrectGamePhasesEnum(ContentThemeEnum theme)
+        static Dictionary<ContentThemeEnum, List<PhaseProgressionModel>> phaseProgressionModels = new Dictionary<ContentThemeEnum, List<PhaseProgressionModel>>()
         {
-            switch (theme)
-            {
-                case ContentThemeEnum.MainGame:
-                    return typeof(MainGamePhasesEnum);
-                default:
-                    throw new Exception("Content not included in the GetCorrectGamePhaseEnum switch.");
-            }
+            {   ContentThemeEnum.MainGame,
+                MainGamePhasesController.Phases
+            },
+        };
+
+        public static List<PhaseProgressionModel> LoadCorrectPhasesForContent(ContentThemeEnum contentTheme)
+        {
+            return phaseProgressionModels.GetValueOrDefault(contentTheme);
         }
     }
 }

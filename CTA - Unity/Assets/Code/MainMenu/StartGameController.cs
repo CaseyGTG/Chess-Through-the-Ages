@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace Assets.Code.SaveData.Enums
+namespace Assets.Code.MainMenu
 {
-    public enum ContentThemeEnum
+    public class StartGameController : MonoBehaviour
     {
-        MainGame = 0,
 
     }
 }

@@ -1,15 +1,15 @@
 ﻿namespace Assets.Code.SaveData
 {
-    internal class SingleGameLevelData
+    public class SingleGameLevelData
     {
-        internal bool unlocked { get; set; } = false;
+        public bool unlocked { get; set; } = false;
 
-        internal int HighestScore { get; set; } = 0;
+        public int HighestScore { get; set; } = 0;
 
         SingleLevelRankingEnum ranking { get; set; } = SingleLevelRankingEnum.None;
     }
 
-    internal enum SingleLevelRankingEnum 
+    public enum SingleLevelRankingEnum 
     {
         None = 0,
         oneStar = 1,

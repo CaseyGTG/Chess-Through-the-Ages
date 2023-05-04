@@ -18,7 +18,7 @@ namespace Assets.Code.SaveData
             SafeFileName = saveFileName;
             SaveFileCreatedTime = DateTime.Now;
             LastSavedTime = SaveFileCreatedTime;
-            //GameProgression = new GameProgressionModel<>
+            GameProgression = new GameProgressionModel(ContentTheme);
         }
 
         internal ContentThemeEnum ContentTheme { get; set; }
@@ -31,7 +31,7 @@ namespace Assets.Code.SaveData
 
         internal DateTime LastSavedTime { get; set; }
 
-        //internal GameProgressionModel<> GameProgression { get; set; }
+        internal GameProgressionModel GameProgression { get; set; }
     }
 
 
