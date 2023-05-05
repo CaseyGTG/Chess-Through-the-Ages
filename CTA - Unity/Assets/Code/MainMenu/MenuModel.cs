@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Code.MainMenu
 {
     [Serializable]
-    public class MainMenuObjects
+    public class MenuModel
     {
         [SerializeField]
         public ContentThemeEnum Theme;
