@@ -298,12 +298,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5e6b47139468e48afa80c865e6e8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menus: []
-  MainContentColumn: {fileID: 4046643936311760738}
-  LeftScreenButton: {fileID: 2126438091}
-  RightScreenButton: {fileID: 1577459299}
-  ContentMenuPreFab: {fileID: 3009504426098547834, guid: 79cc203244cd4f04182beb4af05f8932, type: 3}
-  _currentContentIndex: 0
+  model:
+    Menus: []
+    MainContentColumn: {fileID: 4046643936311760738}
+    LeftScreenButton: {fileID: 2126438091}
+    RightScreenButton: {fileID: 1577459299}
+    ContentMenuPreFab: {fileID: 3009504426098547834, guid: 79cc203244cd4f04182beb4af05f8932, type: 3}
 --- !u!114 &366643462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 200
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1207,7 +1207,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 200
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1563,7 +1563,6 @@ GameObject:
   - component: {fileID: 1802893848}
   - component: {fileID: 196269819292813698}
   - component: {fileID: 6858491675601392098}
-  - component: {fileID: 4046643936311760739}
   m_Layer: 5
   m_Name: MainContentColumn
   m_TagString: Untagged
@@ -1571,20 +1570,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4046643936311760739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4046643936311760738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cd24a0da98a30e4b9b3e941d9cdee54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleObject: {fileID: 0}
-  MainGameMenuPrefab: {fileID: 0}
 --- !u!114 &4329709908018714773
 MonoBehaviour:
   m_ObjectHideFlags: 0
