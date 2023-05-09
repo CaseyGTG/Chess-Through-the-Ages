@@ -6,7 +6,7 @@ namespace Assets.Code.SaveData
 {
     public static class GamePhasesController
     {
-        static Dictionary<ContentThemeEnum, List<PhaseProgressionModel>> phaseProgressionModels = new Dictionary<ContentThemeEnum, List<PhaseProgressionModel>>()
+        private static Dictionary<ContentThemeEnum, List<PhaseProgressionModel>> phaseProgressionModels = new Dictionary<ContentThemeEnum, List<PhaseProgressionModel>>()
         {
             {   ContentThemeEnum.MainGame,
                 MainGamePhasesController.Phases
@@ -17,5 +17,17 @@ namespace Assets.Code.SaveData
         {
             return phaseProgressionModels.GetValueOrDefault(contentTheme);
         }
+
+        public static Dictionary<ContentThemeEnum, string> ContentThemeSubTitle = new Dictionary<ContentThemeEnum, string>()
+        {
+            {
+                ContentThemeEnum.MainGame,
+                "Main game"
+            },
+            {
+                ContentThemeEnum.Arcade,
+                "Arcade"
+            }
+        };
     }
 }

@@ -11,6 +11,9 @@ namespace Assets.Code.MainMenu
         public ContentThemeEnum Theme;
 
         [SerializeField]
+        public GameObject SubTitle;
+
+        [SerializeField]
         public GameObject ContinueButton;
 
         [SerializeField]
