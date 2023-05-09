@@ -51,13 +51,8 @@ namespace Assets.Code.Upgrades
 
             if(button != null)
             {
-                button.onClick.AddListener(UpgradeCurrentChessPiece());
+                button.onClick.AddListener(UpgradeChessPiece);
             }
-        }
-
-        private UnityAction UpgradeCurrentChessPiece()
-        {
-            return UpgradeChessPiece;
         }
 
         private void UpgradeChessPiece()

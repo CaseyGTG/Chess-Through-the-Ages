@@ -8,7 +8,7 @@ namespace Assets.Code.SaveData.Enums
 {
     public enum ContentThemeEnum
     {
-        MainGame = 0,
-
+        MainGame,
+        Arcade
     }
 }
