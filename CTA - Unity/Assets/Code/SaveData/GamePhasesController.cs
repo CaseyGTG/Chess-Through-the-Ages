@@ -18,16 +18,5 @@ namespace Assets.Code.SaveData
             return phaseProgressionModels.GetValueOrDefault(contentTheme);
         }
 
-        public static Dictionary<ContentThemeEnum, string> ContentThemeSubTitle = new Dictionary<ContentThemeEnum, string>()
-        {
-            {
-                ContentThemeEnum.MainGame,
-                "Main game"
-            },
-            {
-                ContentThemeEnum.Arcade,
-                "Arcade"
-            }
-        };
     }
 }
