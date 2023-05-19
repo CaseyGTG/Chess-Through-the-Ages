@@ -8,7 +8,8 @@ namespace Assets.Code.SceneHierarchy
 {
     internal enum SceneHierarchyEnum
     {
-        MainMenu = 0,
-
+        MainMenu,
+        Tutorial,
+        Main_Game_Lobby 
     }
 }

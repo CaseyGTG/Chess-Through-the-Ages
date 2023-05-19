@@ -6,22 +6,44 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Code.SaveData
 {
     internal static class SaveFileManager
     {
-        private static SaveDataModel CurrentSaveData { get; set; }
+        private static SaveDataModel _currentSaveFile;
+
+        private static SaveDataModel CurrentSaveData
+        {
+            get
+            {
+                return _currentSaveFile;
+            }
+
+            set
+            {
+                _currentSaveFile = value;
+            }
+        }
+
 
         internal static void LoadSaveFile(SaveDataModel saveData)
         {
             CurrentSaveData = saveData;
         }
 
-        internal static void CreateNewGame()
+        internal static void CreateNewGameAndLoad(ContentThemeEnum contentTheme, bool skipIntro, string saveName)
         {
-
+            SaveDataModel newSaveData = new SaveDataModel(contentTheme, skipIntro, saveName);
+            CurrentSaveData = newSaveData;
+            string saveFilePath = Application.persistentDataPath + saveName + newSaveData.SaveFileCreatedTime.Ticks.ToString() + ".cttaSave";
+            Debug.Log(saveFilePath);
+            FileStream fs = File.Create(saveFilePath);
+            fs.Close();
+            string jsonSave = JsonConvert.SerializeObject(CurrentSaveData);
+            File.WriteAllText(saveFilePath, jsonSave);
         }
 
         internal static List<SaveDataModel> GetSaveDataForGameTheme(ContentThemeEnum contentTheme)

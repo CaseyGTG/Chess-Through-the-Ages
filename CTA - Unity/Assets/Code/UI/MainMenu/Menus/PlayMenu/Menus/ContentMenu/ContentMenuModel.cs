@@ -21,15 +21,13 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu.Model
         [SerializeField]
         public GameObject ThemeText;
 
-        [SerializeField]
-        public GameObject ContinueButton;
+        [SerializeField] 
+        public GameObject ChoiceMenu;
 
         [SerializeField]
-        public GameObject NewGameButton;
+        public GameObject NewGameMenu;
 
         [SerializeField]
-        public GameObject LoadGameButton;
-
-
+        public GameObject LoadGameMenu;
     }
 }

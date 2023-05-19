@@ -1,7 +1,9 @@
 ﻿using Assets.Code.Content;
 using Assets.Code.SaveData;
 using Assets.Code.SaveData.Enums;
+using Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu.ChoiceMenu;
 using Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu.Model;
+using Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu.NewGameMenu;
 using Assets.Code.UnitySharedTools;
 using System;
 using System.Collections.Generic;
@@ -33,7 +35,7 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
             set
             {
                 _currentThemeIndex = value;
-                LoadCurrentContent();
+                LoadChoiceMenu();
             }
         }
 
@@ -41,44 +43,52 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
         {
             availableContent = ContentController.getAvailableContent();
             currentThemeIndex = 0;
-            LoadCurrentContent();
+            LoadChoiceMenu();
         }
 
-        public void LoadCurrentContent()
+        public void LoadChoiceMenu()
         {
             model.CheckAssignmentOfSerializableProperties();
+            model.DeactivateAllGameObjects();
             LoadThemeText();
             LoadLeftButton();
             LoadRightButton();
-            LoadContinueButton();
+            ChoiceMenuComponent choiceMenuComponent = model.ChoiceMenu.GetComponent<ChoiceMenuComponent>();
+            
+            if(choiceMenuComponent == null)
+            {
+                throw new Exception("Could not retrieve choice menu component.");
+            }
+
+            choiceMenuComponent.loadGameObject(LoadChoiceMenu, LoadNewGameMenu, LoadLoadGameMenu, availableContent.ElementAt(currentThemeIndex));
+            model.ChoiceMenu.SetActive(true);
         }
 
-        private void LoadContinueButton()
+        public void LoadNewGameMenu()
         {
-            Button continueButton = model.ContinueButton.GetComponent<Button>();
-            
-            if (continueButton == null)
+            model.CheckAssignmentOfSerializableProperties();
+            model.DeactivateAllGameObjects();
+            LoadThemeText();
+            NewGameMenuComponent newGameComponent = model.NewGameMenu.GetComponent<NewGameMenuComponent>();
+            if(newGameComponent == null)
             {
-                throw new Exception("Could not retrieve button component from continue button.");
+                throw new Exception("Could not retrieve new game component.");
             }
+            newGameComponent.LoadMenu(LoadChoiceMenu, availableContent.ElementAt(currentThemeIndex));
+            model.NewGameMenu.SetActive(true);
+        }
 
-            continueButton.onClick.RemoveAllListeners();
-
-            List<SaveDataModel> saveData = SaveFileManager.GetSaveDataForGameTheme(availableContent.ElementAt(currentThemeIndex));
-            if(saveData.Count == 0)
-            {
-                continueButton.interactable = false;
-            }
-            else
-            {
-                continueButton.interactable = true;
-                SaveDataModel saveToLoad = saveData.OrderByDescending(x => x.LastSavedTime).First();
-                continueButton.onClick.AddListener(delegate { SaveFileManager.LoadSaveFile(saveToLoad); });
-            }
+        public void LoadLoadGameMenu()
+        {
+            model.CheckAssignmentOfSerializableProperties();
+            model.DeactivateAllGameObjects();
+            LoadThemeText();
+            model.LoadGameMenu.SetActive(true);
         }
 
         private void LoadThemeText()
         {
+            Debug.Log(currentThemeIndex);
             TextMeshProUGUI themeText = model.ThemeText.GetComponent<TextMeshProUGUI>();
             
             if(themeText == null)
@@ -87,6 +97,7 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
             }
 
             themeText.text = ContentController.ContentThemeSubTitle.GetValueOrDefault(availableContent.ElementAt(currentThemeIndex));
+            model.ThemeText.SetActive(true);
         }
 
         private void LoadLeftButton()
@@ -99,7 +110,7 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
             }
 
             leftButton.onClick.RemoveAllListeners();
-            leftButton.onClick.AddListener(CurrentThemeIndexIncrement);
+            leftButton.onClick.AddListener(CurrentThemeDecrement);
         }
 
         private void CurrentThemeIndexIncrement()
@@ -118,7 +129,7 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
             }
 
             rightButton.onClick.RemoveAllListeners();
-            rightButton.onClick.AddListener(CurrentThemeDecrement);
+            rightButton.onClick.AddListener(CurrentThemeIndexIncrement);
         }
 
         private void CurrentThemeDecrement()

@@ -10,7 +10,8 @@ namespace Assets.Code.SaveData.PhaseLevelData.MainGame
     {
         public static List<PhaseProgressionModel> Phases { get; set; } = new List<PhaseProgressionModel>()
         {
-            {preHistoric}
+            {preHistoric},
+            {Agriculture }
         };
 
         public static PhaseProgressionModel preHistoric = new PhaseProgressionModel()
@@ -19,7 +20,24 @@ namespace Assets.Code.SaveData.PhaseLevelData.MainGame
             levelData = PrehistoricLevels
         };
 
+        public static PhaseProgressionModel Agriculture = new PhaseProgressionModel()
+        {
+            IsUnlocked = false,
+            levelData = AgricultureLevels
+        };
+
         private static List<SingleGameLevelData> PrehistoricLevels { get; set; } = new List<SingleGameLevelData>()
+        {
+            {
+                new SingleGameLevelData()
+                {
+                    HighestScore = 0,
+                    unlocked = true
+                }
+            }
+        };
+
+        private static List<SingleGameLevelData> AgricultureLevels { get; set; } = new List<SingleGameLevelData>()
         {
             {
                 new SingleGameLevelData()

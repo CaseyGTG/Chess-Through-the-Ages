@@ -13,7 +13,8 @@ namespace Assets.Code.Content
         {
             List<ContentThemeEnum> result = new List<ContentThemeEnum>
             {
-                ContentThemeEnum.MainGame
+                ContentThemeEnum.MainGame,
+                ContentThemeEnum.Arcade
             };
 
             return result;
