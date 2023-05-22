@@ -998,8 +998,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 0
   m_Spacing: 10
   m_ChildForceExpandWidth: 1
@@ -4651,10 +4651,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 50
     m_Right: 50
-    m_Top: 50
-    m_Bottom: 50
+    m_Top: 25
+    m_Bottom: 25
   m_ChildAlignment: 1
-  m_Spacing: 10
+  m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -4696,7 +4696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model:
     NameInputField: {fileID: 1234201579}
-    SkipIntoToggle: {fileID: 683227136}
+    SkipIntroToggle: {fileID: 1905327791}
     StartNewGameButton: {fileID: 1957452551}
     CancelButton: {fileID: 1772063768}
 --- !u!1 &1429769662

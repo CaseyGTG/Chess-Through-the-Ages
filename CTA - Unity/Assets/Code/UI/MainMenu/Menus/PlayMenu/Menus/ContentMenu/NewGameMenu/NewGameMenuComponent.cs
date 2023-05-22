@@ -58,7 +58,6 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu.NewGameMenu
         {
             bool skipIntro = model.SkipIntroToggle.GetComponent<Toggle>().isOn;
             string saveFileName = model.NameInputField.GetComponent<TMP_InputField>().text;
-            SaveDataModel newSaveData = new SaveDataModel(content, skipIntro, saveFileName);
             SaveFileManager.CreateNewGameAndLoad(content, skipIntro, saveFileName);
         }
     }
