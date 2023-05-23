@@ -41,7 +41,9 @@ namespace Assets.Code.UI.MainMenu.Menus.DefaultMenu.Components
 
         private void loadQuitButton()
         {
-            Application.Quit();
+            Button quitButton = buttonsModel.ExitButton.GetComponent<Button>();
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(delegate { Application.Quit(); });
         }
 
     }

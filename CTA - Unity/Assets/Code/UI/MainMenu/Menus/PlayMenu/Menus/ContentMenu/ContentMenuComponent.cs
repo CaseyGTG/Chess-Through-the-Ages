@@ -88,7 +88,6 @@ namespace Assets.Code.UI.MainMenu.Menus.PlayMenu.Menus.ContentMenu
 
         private void LoadThemeText()
         {
-            Debug.Log(currentThemeIndex);
             TextMeshProUGUI themeText = model.ThemeText.GetComponent<TextMeshProUGUI>();
             
             if(themeText == null)

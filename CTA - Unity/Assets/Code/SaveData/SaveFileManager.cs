@@ -61,14 +61,17 @@ namespace Assets.Code.SaveData
         internal static List<SaveDataModel> GetSaveDataForGameTheme(ContentThemeEnum contentTheme)
         {
             List<SaveDataModel> allSaveData = GetAllSaveData();
+            Debug.Log(allSaveData.Count());
             return allSaveData.Where(saveData => saveData.ContentTheme == contentTheme).ToList();
         }
 
         private static List<SaveDataModel> GetAllSaveData()
         {
             List<SaveDataModel> result = new List<SaveDataModel>();
-            List<string> saveFiles = Directory.GetFiles(Application.persistentDataPath, "*.cttaSave").ToList();
-            foreach (string file in saveFiles)
+            IEnumerable<string> fileEntries = Directory.GetFiles(Application.persistentDataPath).Where(file => file.EndsWith(".cttaSave"));
+
+            Debug.Log($"There are {fileEntries.Count()} save files.");
+            foreach (string file in fileEntries)
             {
                 string streamReader = File.OpenText(file).ToString();
                 SaveDataModel saveData = JsonConvert.DeserializeObject<SaveDataModel>(streamReader.ToString());
