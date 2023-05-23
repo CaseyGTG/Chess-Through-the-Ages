@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LevelPicker.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Code.LevelPicker
 {
@@ -12,38 +9,61 @@ namespace Assets.Code.LevelPicker
     {
         public Rigidbody2D body;
 
-        private PlayerInput playerInput;
+        private LevelPickerInputController inputController;
 
         private Vector2 MoveDirection = Vector2.zero;
 
         private int MoveSpeedMultiplier = 10;
 
+        private LPLevelComponent levelComponent = null;
+
         private void Awake()
         {
-            playerInput = GetComponent<PlayerInput>();
             body = GetComponent<Rigidbody2D>();
+
+            InitInput();
+        }
+
+        private void InitInput()
+        {
+            inputController = new LevelPickerInputController();
+            if (inputController != null)
+            {
+                inputController.Player.Enable();
+            }
+
+            inputController.Player.Interact.started += Action_Activated;
+        }
+
+        private void Action_Activated(InputAction.CallbackContext obj)
+        {
+            if(levelComponent == null)
+            {
+                throw new System.Exception("Level not assigned in inspector.");
+            }
+
+            SceneManager.LoadSceneAsync((int)levelComponent.SceneToLoad);
         }
 
         private void Update()
         {
-            MoveDirection = playerInput.actions.ElementAt(0).ReadValue<Vector2>();
+            MoveDirection = inputController.Player.Move.ReadValue<Vector2>();
             body.MovePosition((Vector2)transform.position + new Vector2(MoveDirection.x * Time.deltaTime, MoveDirection.y * Time.deltaTime) * MoveSpeedMultiplier);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.gameObject.GetComponent<LPLevelComponent>() != null)
+            if (collision.gameObject.GetComponent<LPLevelComponent>() != null)
             {
-                collision.gameObject.GetComponent<LPLevelComponent>().Expand();
+                levelComponent = collision.gameObject.GetComponent<LPLevelComponent>();
+                levelComponent.Expand();
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.gameObject.GetComponent<LPLevelComponent>() != null)
-            {
-                collision.gameObject.GetComponent<LPLevelComponent>().Shrink();
-            }
+            levelComponent.Shrink();
+            levelComponent = null;
         }
     }
 }

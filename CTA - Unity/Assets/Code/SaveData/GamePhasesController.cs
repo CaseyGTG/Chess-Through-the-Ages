@@ -1,4 +1,5 @@
 ﻿using Assets.Code.SaveData.Enums;
+using Assets.Code.SaveData.PhaseLevelData;
 using Assets.Code.SaveData.PhaseLevelData.MainGame;
 using System.Collections.Generic;
 
@@ -8,7 +9,13 @@ namespace Assets.Code.SaveData
     {
         private static Dictionary<ContentThemeEnum, List<PhaseProgressionModel>> phaseProgressionModels = new Dictionary<ContentThemeEnum, List<PhaseProgressionModel>>()
         {
-            {   ContentThemeEnum.MainGame,
+            {
+                ContentThemeEnum.Testing,
+                TestingPhasesController.Phases
+            },
+
+            {   
+                ContentThemeEnum.MainGame,
                 MainGamePhasesController.Phases
             },
         };

@@ -1,7 +1,13 @@
-﻿namespace Assets.Code.SaveData
+﻿using System;
+
+namespace Assets.Code.SaveData
 {
+    [Serializable]
     public class SingleGameLevelData
     {
+        public ScenesEnum Scene { get; set; }
+        public string Name { get; set; } = "Undefined";
+
         public bool unlocked { get; set; } = false;
 
         public int HighestScore { get; set; } = 0;

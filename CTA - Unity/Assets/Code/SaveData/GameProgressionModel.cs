@@ -10,16 +10,24 @@ namespace Assets.Code.SaveData
     [Serializable]
     public class GameProgressionModel
     {
-        public List<PhaseProgressionModel> PhaseProgressionModel { get; set; }
+        public List<PhaseProgressionModel> PhaseProgressionModel { get; set; } = new List<PhaseProgressionModel>();
 
         public GameProgressionModel(ContentThemeEnum contentTheme)
         {
-            PhaseProgressionModel = GamePhasesController.LoadCorrectPhasesForContent(contentTheme);
+            List<PhaseProgressionModel> model = GamePhasesController.LoadCorrectPhasesForContent(contentTheme);
+            foreach(PhaseProgressionModel phase in model)
+            {
+                PhaseProgressionModel.Add(phase);
+            }
         }
     }
 
     public class PhaseProgressionModel
     {
+        public ScenesEnum Scene { get; set; }
+
+        public string Name { get; set; } 
+
         public bool IsUnlocked { get; set; } = false;
 
         public List<SingleGameLevelData> levelData { get; set; } = new List<SingleGameLevelData>();

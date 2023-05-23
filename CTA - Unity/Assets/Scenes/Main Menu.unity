@@ -4696,7 +4696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model:
     NameInputField: {fileID: 1234201579}
-    SkipIntroToggle: {fileID: 1905327791}
+    SkipIntroToggle: {fileID: 683227136}
     StartNewGameButton: {fileID: 1957452551}
     CancelButton: {fileID: 1772063768}
 --- !u!1 &1429769662

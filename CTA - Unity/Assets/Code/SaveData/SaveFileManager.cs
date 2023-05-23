@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Code.SaveData
 {
@@ -34,16 +35,27 @@ namespace Assets.Code.SaveData
             CurrentSaveData = saveData;
         }
 
-        internal static void CreateNewGameAndLoad(ContentThemeEnum contentTheme, bool skipIntro, string saveName)
+        internal static void WriteCurrentSaveFile()
         {
-            SaveDataModel newSaveData = new SaveDataModel(contentTheme, skipIntro, saveName);
-            CurrentSaveData = newSaveData;
-            string saveFilePath = Application.persistentDataPath + saveName + newSaveData.SaveFileCreatedTime.Ticks.ToString() + ".cttaSave";
+            string saveFilePath = Application.persistentDataPath + CurrentSaveData.SafeFileName + CurrentSaveData.SaveFileCreatedTime.Ticks.ToString() + ".cttaSave";
             Debug.Log(saveFilePath);
             FileStream fs = File.Create(saveFilePath);
             fs.Close();
             string jsonSave = JsonConvert.SerializeObject(CurrentSaveData);
             File.WriteAllText(saveFilePath, jsonSave);
+        }
+
+        internal static void CreateNewGameAndLoad(ContentThemeEnum contentTheme, bool skipIntro, string saveName)
+        {
+            SaveDataModel newSaveData = new SaveDataModel(contentTheme, skipIntro, saveName);
+            CurrentSaveData = newSaveData;
+            WriteCurrentSaveFile();
+            LoadCurrentSaveFile();
+        }
+
+        private static void LoadCurrentSaveFile()
+        {
+            SceneManager.LoadSceneAsync((int)CurrentSaveData.GameProgression.PhaseProgressionModel.Where(phase => phase.IsUnlocked == true).LastOrDefault().Scene, LoadSceneMode.Single);
         }
 
         internal static List<SaveDataModel> GetSaveDataForGameTheme(ContentThemeEnum contentTheme)

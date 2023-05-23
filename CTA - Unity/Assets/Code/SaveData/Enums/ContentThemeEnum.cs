@@ -8,6 +8,7 @@ namespace Assets.Code.SaveData.Enums
 {
     public enum ContentThemeEnum
     {
+        Testing,
         MainGame,
         Arcade
     }

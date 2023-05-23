@@ -13,6 +13,7 @@ namespace Assets.Code.Content
         {
             List<ContentThemeEnum> result = new List<ContentThemeEnum>
             {
+                ContentThemeEnum.Testing,
                 ContentThemeEnum.MainGame,
                 ContentThemeEnum.Arcade
             };
@@ -23,6 +24,10 @@ namespace Assets.Code.Content
 
         public static Dictionary<ContentThemeEnum, string> ContentThemeSubTitle = new Dictionary<ContentThemeEnum, string>()
         {
+            {
+                ContentThemeEnum.Testing,
+                "Testing"
+            },
             {
                 ContentThemeEnum.MainGame,
                 "Main game"
