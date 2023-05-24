@@ -90,7 +90,14 @@ namespace Assets.Code.ChessData.Pieces.MovementData
             List<UserDefinedMovement> knightMovement = new List<UserDefinedMovement>
             {
                 new(2, 1),
-                new(2, -1)
+                new(2, -1),
+                new(1, 2),
+                new(-1, 2),
+                new(-2, 1),
+                new(-2, -1),
+                new(1, -2),
+                new(-1, -2),
+
             };
 
             ChessPieceMovementDefinition knightMovementDefinition = new ChessPieceMovementDefinition(ChessMovementType.UserDefined, knightMovement);
