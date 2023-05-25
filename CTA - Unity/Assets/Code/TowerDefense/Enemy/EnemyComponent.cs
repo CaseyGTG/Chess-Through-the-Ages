@@ -11,5 +11,20 @@ namespace Assets.Code.TowerDefense.Enemy
     {
         [SerializeField]
         public int Health;
+
+        private void Awake()
+        {
+            Debug.Log("Enemy loaded");
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            Debug.Log("Trigger from enemy");
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("Collision from enemy");
+        }
     }
 }
