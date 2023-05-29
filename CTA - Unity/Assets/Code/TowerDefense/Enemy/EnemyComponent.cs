@@ -21,10 +21,5 @@ namespace Assets.Code.TowerDefense.Enemy
         {
             Debug.Log("Trigger from enemy");
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            Debug.Log("Collision from enemy");
-        }
     }
 }
