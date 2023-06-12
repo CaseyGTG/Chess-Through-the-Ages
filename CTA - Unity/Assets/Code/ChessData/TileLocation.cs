@@ -16,6 +16,7 @@ namespace Assets.Code.ChessData
             HorizontalLocation = horizontal;
             VerticalLocation = vertical;
         }
+
         public override string ToString()
         {
             return $"{HorizontalLocation.ToString()}, {VerticalLocation.ToString()}";

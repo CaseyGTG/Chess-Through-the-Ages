@@ -14,7 +14,7 @@ namespace Assets.Code.LevelManagement
         [SerializeField]
         public GameObject ChessPiecesObject;
 
-        private void Start()
+        private void Awake()
         {
             if (piecesToLoad == null || piecesToLoad.Count == 0)
             {
